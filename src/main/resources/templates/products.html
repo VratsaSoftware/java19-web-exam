@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" type="text/css" href="/assets/styles/style.css">
+    <script src="/assets/scripts/products.js"></script>
+    <script src="/assets/scripts/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<ul class="navbar">
+    <li class="navbar"><a class="navbar" th:href="@{/products}">Products</a></li>
+    <li sec:authorize="!isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/login}">Login</a></li>
+    <li sec:authorize="!isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/register}">Register</a></li>
+    <li class="navbar"><a class="navbar" th:href="@{/cart}">Cart</a></li>
+    <li sec:authorize="isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/logout}">Logout</a></li>
+</ul>
+
+<th:block th:each="product: ${products}">
+    <div>
+        <h4 th:text="${product.getName()}"></h4>
+        <h3 th:text="'$' + ${product.getPrice()}"></h3>
+        <input type="number" value="0" min="0" max="2000000"/>
+        <input type="button" class="addBtn" value="Add to cart" th:attr="data-id=${product.getId()}"/>
+    </div>
+    <hr/>
+</th:block>
+
+<script>
+    $(function () {
+        setOnAddProductClick()
+    })
+</script>
+</body>
+</html>

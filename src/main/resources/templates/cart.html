@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link rel="stylesheet" type="text/css" href="/assets/styles/style.css">
+    <script src="/assets/scripts/products.js"></script>
+    <script src="/assets/scripts/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<ul class="navbar">
+    <li class="navbar"><a class="navbar" th:href="@{/products}">Products</a></li>
+    <li sec:authorize="!isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/login}">Login</a></li>
+    <li sec:authorize="!isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/register}">Register</a></li>
+    <li class="navbar"><a class="navbar" th:href="@{/cart}">Cart</a></li>
+    <li sec:authorize="isAuthenticated()" class="navbar"><a class="navbar" th:href="@{/logout}">Logout</a></li>
+</ul>
+
+<div id="productsList">
+    <th:block th:each="product: ${cart.getProducts()}">
+        <div>
+            <h3 th:text="${product.getProduct().getName()}"></h3>
+            <h4 th:text="'$' + ${product.getProduct().getPrice()}"></h4>
+            <h4 th:text="'Cost: $' + ${#numbers.formatDecimal(product.getCost(), 1, 'COMMA', 2, 'POINT')}"></h4>
+        </div>
+        <input th:value="${product.getCount()}" type="number" min="0" max="2000000" style="display: inline-block"/>
+        <input type="button" class="updateBtn" value="Update" th:attr="data-id=${product.getProduct().getId()}"/>
+        <input type="button" class="discardBtn" value="Discard" th:attr="data-id=${product.getProduct().getId()}"/>
+        <hr/>
+    </th:block>
+</div>
+
+<h2 id="txtTotal" th:text="'Total: $' + ${#numbers.formatDecimal(cart.getTotal(), 1, 'COMMA', 2, 'POINT')}"></h2>
+
+<form action="/purchase" method="POST">
+    <input type="submit" value="Purchase"/>
+</form>
+
+<script>
+    $(function () {
+        setOnUpdateProductClick()
+        setOnDiscardProductClick()
+    })
+</script>
+</body>
+</html>
