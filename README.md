@@ -2,9 +2,9 @@
 
 #### 1. The application classes are not structured in any way. Split them into logical packages.
 #### 2. The register functionality is not finished. Finish it. You will have to do several things:
-####	* The user must have a user role (ROLE_USER).
-####	* Check if the two passwords (the password and the repeated password) match. Throw an exception if they don’t.
-####	* The user’s password must be encrypted.
+* #### The user must have a user role (ROLE_USER).
+* #### Check if the two passwords (the password and the repeated password) match. Throw an exception if they don’t.
+* #### The user’s password must be encrypted.
 
 # Bugs:
 
